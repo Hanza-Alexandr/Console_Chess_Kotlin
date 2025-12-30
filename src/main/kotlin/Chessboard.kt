@@ -163,8 +163,11 @@ class ClassicChessboard(): Chessboard<Char,Int,ClassicFigurePosition, ClassicChe
             val figureInNewPosition: ClassicChessFigure? = returnFigureByPosition(newPosition)
             mapFiguresOnChessboard[currentPosition] = null
             mapFiguresOnChessboard[newPosition] = figure
+
+            figure?.markMove()
             return figureInNewPosition
         }
+
 
     }
 }

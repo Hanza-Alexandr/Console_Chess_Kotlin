@@ -15,6 +15,7 @@ abstract class ChessFigure<X,Y,P: FigurePosition<X,Y>, B: Chessboard<X,Y,P,B,F>,
     abstract val colorFigure: ColorPlayer
 
     abstract fun whereCanMakeMove(currentPlayer: ColorPlayer, currentPosition: P, chessboard: B): Set<P>?
+    abstract fun markMove()
 }
 
 abstract class ClassicChessFigure(_color: ColorPlayer): ChessFigure<Char,Int,ClassicFigurePosition, ClassicChessboard, ClassicChessFigure>() {
@@ -182,6 +183,9 @@ class KingFigure(_color: ColorPlayer) : ClassicChessFigure(_color) {
 
         return if (list.isEmpty()) null else list.toSet()
     }
+
+    override fun markMove() {
+    }
 }
 class QueenFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
     override val charAliasOnChessboard: Char = if (colorFigure == ColorPlayer.WHITE) '♕' else '♛'
@@ -191,6 +195,9 @@ class QueenFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
         chessboard: ClassicChessboard
     ): Set<ClassicFigurePosition>? {
         TODO("Not yet implemented")
+    }
+
+    override fun markMove() {
     }
 
 }
@@ -301,6 +308,9 @@ class RookFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
         return if (list.isEmpty()) null else list.toSet()
     }
 
+    override fun markMove() {
+    }
+
 }
 class BishopFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
     override val charAliasOnChessboard: Char = if (colorFigure == ColorPlayer.WHITE) '♗' else '♝'
@@ -310,6 +320,9 @@ class BishopFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
         chessboard: ClassicChessboard
     ): Set<ClassicFigurePosition>? {
         TODO("Not yet implemented")
+    }
+
+    override fun markMove() {
     }
 
 }
@@ -323,14 +336,132 @@ class KnightFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
         TODO("Not yet implemented")
     }
 
+    override fun markMove() {
+
+    }
+
 }
 class PawnFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
+    var isFirstMove = true
     override val charAliasOnChessboard: Char = if (colorFigure == ColorPlayer.WHITE) '♙' else '♟'
     override fun whereCanMakeMove(
         currentPlayer: ColorPlayer,
         currentPosition: ClassicFigurePosition,
         chessboard: ClassicChessboard
     ): Set<ClassicFigurePosition>? {
-        TODO("Not yet implemented")
+        val list = mutableListOf<ClassicFigurePosition>()
+
+        fun calculateYPosition(){
+            var counter = 1
+            if (isFirstMove) counter =2
+
+            var y = currentPosition.yCoordinate +1
+            var figure: ClassicChessFigure?
+
+            for (i in 1..counter){
+                if (chessboard.checkPositionOnBoard(ClassicFigurePosition(currentPosition.xCoordinate,y))){
+                    figure = chessboard.returnFigureByPosition(ClassicFigurePosition(currentPosition.xCoordinate,y))
+                    if(figure ==null) {
+                        list.add(ClassicFigurePosition(currentPosition.xCoordinate,y))
+                    }
+                }
+                y++
+            }
+        }
+        fun calculateXYPosition(){
+            val x = currentPosition.xCoordinate +1
+            val y = currentPosition.yCoordinate +1
+            val figure: ClassicChessFigure?
+
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                val isEnemyAtPosition = figure!=null&&figure.colorFigure != currentPlayer
+
+                if (isEnemyAtPosition) {
+                    list.add(ClassicFigurePosition(x, y))
+                }
+            }
+        }
+        fun calculateMinusXYPosition(){
+            val x = currentPosition.xCoordinate -1
+            val y = currentPosition.yCoordinate +1
+            val figure: ClassicChessFigure?
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                val isEnemyAtPosition = figure!=null&&figure.colorFigure != currentPlayer
+
+                if (isEnemyAtPosition) {
+                    list.add(ClassicFigurePosition(x, y))
+                }
+            }
+        }
+
+        fun calculateMinusYPosition(){
+            var counter = 1
+            if (isFirstMove) counter =2
+
+            var y = currentPosition.yCoordinate -1
+            var figure: ClassicChessFigure?
+
+            for (i in 1..counter){
+                if (chessboard.checkPositionOnBoard(ClassicFigurePosition(currentPosition.xCoordinate,y))){
+                    figure = chessboard.returnFigureByPosition(ClassicFigurePosition(currentPosition.xCoordinate,y))
+                    if(figure ==null) {
+                        list.add(ClassicFigurePosition(currentPosition.xCoordinate,y))
+                    }
+                }
+                y--
+            }
+        }
+        fun calculateMinusXMinusYPosition(){
+            val x = currentPosition.xCoordinate -1
+            val y = currentPosition.yCoordinate -1
+            val figure: ClassicChessFigure?
+
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                val isEnemyAtPosition = figure!=null&&figure.colorFigure != currentPlayer
+
+                if (isEnemyAtPosition) {
+                    list.add(ClassicFigurePosition(x, y))
+                }
+            }
+        }
+        fun calculateXMinusYPosition(){
+            val x = currentPosition.xCoordinate +1
+            val y = currentPosition.yCoordinate -1
+            val figure: ClassicChessFigure?
+
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                val isEnemyAtPosition = figure!=null&&figure.colorFigure != currentPlayer
+
+                if (isEnemyAtPosition) {
+                    list.add(ClassicFigurePosition(x, y))
+                }
+            }
+        }
+
+        if(currentPlayer == ColorPlayer.WHITE){
+            calculateYPosition()
+            calculateXYPosition()
+            calculateMinusXYPosition()
+        }
+        if (currentPlayer == ColorPlayer.BLACK){
+            calculateMinusYPosition()
+            calculateMinusXMinusYPosition()
+            calculateXMinusYPosition()
+        }
+
+        return if (list.isEmpty()) null else list.toSet()
+
+    }
+
+    override fun markMove() {
+        isFirstMove = false
     }
 }
