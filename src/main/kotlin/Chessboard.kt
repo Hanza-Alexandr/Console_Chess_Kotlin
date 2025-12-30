@@ -74,7 +74,7 @@ class ClassicChessboard(): Chessboard<Char,Int,ClassicFigurePosition, ClassicChe
             //ClassicFigurePosition('A', 2) to PawnFigure(ColorPlayer.WHITE),
             ClassicFigurePosition('B', 2) to PawnFigure(ColorPlayer.WHITE),
             ClassicFigurePosition('C', 2) to PawnFigure(ColorPlayer.WHITE),
-            ClassicFigurePosition('D', 2) to PawnFigure(ColorPlayer.WHITE),
+            //ClassicFigurePosition('D', 2) to PawnFigure(ColorPlayer.WHITE),
             //ClassicFigurePosition('E', 2) to PawnFigure(ColorPlayer.WHITE),
             ClassicFigurePosition('F', 2) to PawnFigure(ColorPlayer.WHITE),
             ClassicFigurePosition('G', 2) to PawnFigure(ColorPlayer.WHITE),
