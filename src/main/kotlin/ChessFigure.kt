@@ -517,7 +517,112 @@ class BishopFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
         currentPosition: ClassicFigurePosition,
         chessboard: ClassicChessboard
     ): Set<ClassicFigurePosition>? {
-        TODO("Not yet implemented")
+        val list: MutableList<ClassicFigurePosition> = mutableListOf()
+
+        fun calculateXYPosition(){
+            var x = currentPosition.xCoordinate +1
+            var y = currentPosition.yCoordinate +1
+            var figure: ClassicChessFigure?
+            while (true){
+                if (!chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) break //если такая позиция отсутствует ничего не записываем и выходим
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                if(figure !=null) {
+                    if (figure.colorFigure == currentPlayer){
+                        break
+                    }
+                    else{
+                        list.add(ClassicFigurePosition(x,y))
+                        break
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                    x++
+                    y++
+                    continue
+                }
+            }
+        }
+        fun calculateMinusXMinusYPosition(){
+            var x = currentPosition.xCoordinate -1
+            var y = currentPosition.yCoordinate -1
+            var figure: ClassicChessFigure?
+            while (true){
+                if (!chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) break //если такая позиция отсутствует ничего не записываем и выходим
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                if(figure !=null) {
+                    if (figure.colorFigure == currentPlayer){
+                        break
+                    }
+                    else{
+                        list.add(ClassicFigurePosition(x,y))
+                        break
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                    x--
+                    y--
+                    continue
+                }
+            }
+        }
+        fun calculateMinusXYPosition(){
+            var x = currentPosition.xCoordinate -1
+            var y = currentPosition.yCoordinate +1
+            var figure: ClassicChessFigure?
+            while (true){
+                if (!chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) break //если такая позиция отсутствует ничего не записываем и выходим
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                if(figure !=null) {
+                    if (figure.colorFigure == currentPlayer){
+                        break
+                    }
+                    else{
+                        list.add(ClassicFigurePosition(x,y))
+                        break
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                    x--
+                    y++
+                    continue
+                }
+            }
+        }
+        fun calculateXMinusYPosition(){
+            var x = currentPosition.xCoordinate +1
+            var y = currentPosition.yCoordinate -1
+            var figure: ClassicChessFigure?
+            while (true){
+                if (!chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) break //если такая позиция отсутствует ничего не записываем и выходим
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                if(figure !=null) {
+                    if (figure.colorFigure == currentPlayer){
+                        break
+                    }
+                    else{
+                        list.add(ClassicFigurePosition(x,y))
+                        break
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                    x++
+                    y--
+                    continue
+                }
+            }
+        }
+
+        calculateXYPosition()
+        calculateMinusXMinusYPosition()
+        calculateMinusXYPosition()
+        calculateXMinusYPosition()
+
+        return if (list.isEmpty()) null else list.toSet()
+
     }
 
     override fun markMove() {
@@ -531,7 +636,157 @@ class KnightFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
         currentPosition: ClassicFigurePosition,
         chessboard: ClassicChessboard
     ): Set<ClassicFigurePosition>? {
-        TODO("Not yet implemented")
+
+        val list: MutableList<ClassicFigurePosition> = mutableListOf()
+
+        fun calculateXYPosition(){
+            var x = currentPosition.xCoordinate +1
+            var y = currentPosition.yCoordinate +2
+            var figure: ClassicChessFigure?
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) //если такая позиция отсутствует ничего не записываем и выходим
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+
+
+            }
+            x = currentPosition.xCoordinate+2
+            y = currentPosition.yCoordinate+1
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) //если такая позиция отсутствует ничего не записываем и выходим
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+            }
+        }
+        fun calculateMinusXMinusYPosition(){
+            var x = currentPosition.xCoordinate -1
+            var y = currentPosition.yCoordinate -2
+            var figure: ClassicChessFigure?
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) //если такая позиция отсутствует ничего не записываем и выходим
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x, y))
+
+                if (figure != null) {
+                    if (figure.colorFigure != currentPlayer) {
+                        list.add(ClassicFigurePosition(x, y))
+
+                    }
+                } else {
+                    list.add(ClassicFigurePosition(x, y))
+                }
+            }
+            x = currentPosition.xCoordinate-2
+            y = currentPosition.yCoordinate-1
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y)))
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+            }
+        }
+        fun calculateMinusXYPosition(){
+            var x = currentPosition.xCoordinate -1
+            var y = currentPosition.yCoordinate +2
+            var figure: ClassicChessFigure?
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) //если такая позиция отсутствует ничего не записываем и выходим
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+            }
+
+            x = currentPosition.xCoordinate-2
+            y = currentPosition.yCoordinate+1
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) //если такая позиция отсутствует ничего не записываем и выходим
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+            }
+        }
+        fun calculateXMinusYPosition(){
+            var x = currentPosition.xCoordinate +1
+            var y = currentPosition.yCoordinate -2
+            var figure: ClassicChessFigure?
+
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y))) //если такая позиция отсутствует ничего не записываем и выходим
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+            }
+            x = currentPosition.xCoordinate+2
+            y = currentPosition.yCoordinate-1
+            if (chessboard.checkPositionOnBoard(ClassicFigurePosition(x,y)))
+            {
+                figure = chessboard.returnFigureByPosition(ClassicFigurePosition(x,y))
+                if(figure !=null) {
+                    if (figure.colorFigure != currentPlayer){
+                        list.add(ClassicFigurePosition(x,y))
+                    }
+                }
+                else{
+                    list.add(ClassicFigurePosition(x,y))
+                }
+            }
+        }
+
+        calculateXYPosition()
+        calculateMinusXMinusYPosition()
+        calculateMinusXYPosition()
+        calculateXMinusYPosition()
+
+        return if (list.isEmpty()) null else list.toSet()
+
     }
 
     override fun markMove() {
