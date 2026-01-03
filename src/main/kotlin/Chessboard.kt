@@ -15,7 +15,7 @@ import kotlin.jvm.Throws
 *    - Проверки отдельно каждой координаты(X,Y) в веденной позиции на наличие ее на шахматной доске
 *    - Возврата фигуры по введенной позиции (или null если на позиции фигуры нет)
 *    - Возврата заполненной шахматной доски(в реализации просто вручную созданный map)
-*    - Совершения хода. Внутри метода происходит изменение Map. И возвращает взятую фигуру или null если новая позиция оказалась null
+*    - Совершения хода. Внутри метода происходит изменение Map. А так же передается лямда коллбека для записи в классе игры взятой фигуры
 *    - Доступа для просмотра Map. Просто возвращает Map
 */
 
@@ -28,7 +28,7 @@ abstract class Chessboard<X,Y,P: FigurePosition<X,Y>,B: Chessboard<X,Y,P,B,F>, F
     abstract fun checkYCoordinateOnBoard(yCoordinate: Y): Boolean
     abstract fun returnFigureByPosition(figurePosition: P): F?
     protected abstract fun returnFillChessboard(): MutableMap<P, F?>
-    abstract fun makeMove(listPossiblePositions: Set<P>,currentPosition: P, newPosition: P): F?// использует метод isMove и если возвращает true то, меняет позиции фигур в mapFiguresOnChessboard и записывает что произошло
+    abstract fun makeMove(listPossiblePositions: Set<P>,from: P, to: P, onCapture: (F) -> Unit)// использует метод isMove и если возвращает true то, меняет позиции фигур в mapFiguresOnChessboard и записывает что произошло
     fun returnMapFiguresOnChessboard(): MutableMap<P, F?>{
         return mapFiguresOnChessboard
     }
@@ -152,20 +152,27 @@ class ClassicChessboard(): Chessboard<Char,Int,ClassicFigurePosition, ClassicChe
         )
         return startChessboard
     }
-    override fun makeMove(listPossiblePositions: Set<ClassicFigurePosition>, currentPosition: ClassicFigurePosition, newPosition: ClassicFigurePosition): ClassicChessFigure? {
-        if (!listPossiblePositions.any{it == newPosition}) {
+    override fun makeMove(
+        listPossiblePositions: Set<ClassicFigurePosition>,
+        from: ClassicFigurePosition,
+        to: ClassicFigurePosition,
+        onCapture: (ClassicChessFigure)-> Unit
+    ) {
+        if (!listPossiblePositions.any{it == to}) {
             MyLogger.log("Вы не можете поставить туда выбранную фигуру")
             println(MyLogger.lastMessage)
-            return null
+
         }
         else{
-            val figure = returnFigureByPosition(currentPosition)
-            val figureInNewPosition: ClassicChessFigure? = returnFigureByPosition(newPosition)
-            mapFiguresOnChessboard[currentPosition] = null
-            mapFiguresOnChessboard[newPosition] = figure
+            val figure = returnFigureByPosition(from)
+            val captured = returnFigureByPosition(to)
+            if (captured!=null){
+                onCapture(captured)
+            }
+            mapFiguresOnChessboard[from] = null
+            mapFiguresOnChessboard[to] = figure
 
             figure?.markMove()
-            return figureInNewPosition
         }
 
 
