@@ -165,6 +165,23 @@ class ClassicChessboard(): Chessboard<Char,Int,ClassicFigurePosition, ClassicChe
         }
         else{
             val figure = returnFigureByPosition(from)
+            //реализация рокировки
+            if (figure!=null){
+                if(figure :: class == KingFigure::class){
+                    if (figure.colorFigure == ColorPlayer.WHITE){
+                        if(to == ClassicFigurePosition('C',1)||to == ClassicFigurePosition('G',1)){
+
+                        }
+                    }
+                    if (figure.colorFigure == ColorPlayer.BLACK){
+                        if(to == ClassicFigurePosition('G',8)||to == ClassicFigurePosition('C',8)){
+
+                        }
+                    }
+
+                }
+            }
+
             val captured = returnFigureByPosition(to)
             if (captured!=null){
                 onCapture(captured)

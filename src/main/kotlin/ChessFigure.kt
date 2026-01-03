@@ -25,6 +25,8 @@ abstract class ClassicChessFigure(_color: ColorPlayer): ChessFigure<Char,Int,Cla
 }
 
 class KingFigure(_color: ColorPlayer) : ClassicChessFigure(_color) {
+    var isFirstMove = true
+
     override val charAliasOnChessboard: Char = if (colorFigure == ColorPlayer.WHITE) '♔' else '♚'
     override fun whereCanMakeMove(
         currentPlayer: ColorPlayer,
@@ -185,6 +187,7 @@ class KingFigure(_color: ColorPlayer) : ClassicChessFigure(_color) {
     }
 
     override fun markMove() {
+        isFirstMove = false
     }
 }
 class QueenFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
@@ -400,6 +403,8 @@ class QueenFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
 
 }
 class RookFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
+    var isFirstMove = true
+
     override val charAliasOnChessboard: Char = if (colorFigure == ColorPlayer.WHITE) '♖' else '♜'
     override fun whereCanMakeMove(
         currentPlayer: ColorPlayer,
@@ -507,6 +512,7 @@ class RookFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
     }
 
     override fun markMove() {
+        isFirstMove = false
     }
 
 }
