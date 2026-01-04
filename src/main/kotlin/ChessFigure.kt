@@ -817,7 +817,7 @@ class PawnFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
             var y = currentPosition.yCoordinate +1
             var figure: ClassicChessFigure?
 
-            for (i in 1..counter){
+            repeat(counter){
                 if (chessboard.checkPositionOnBoard(ClassicFigurePosition(currentPosition.xCoordinate,y))){
                     figure = chessboard.returnFigureByPosition(ClassicFigurePosition(currentPosition.xCoordinate,y))
                     if(figure ==null) {
@@ -864,7 +864,7 @@ class PawnFigure(_color: ColorPlayer): ClassicChessFigure(_color) {
             var y = currentPosition.yCoordinate -1
             var figure: ClassicChessFigure?
 
-            for (i in 1..counter){
+            repeat(counter){
                 if (chessboard.checkPositionOnBoard(ClassicFigurePosition(currentPosition.xCoordinate,y))){
                     figure = chessboard.returnFigureByPosition(ClassicFigurePosition(currentPosition.xCoordinate,y))
                     if(figure ==null) {
